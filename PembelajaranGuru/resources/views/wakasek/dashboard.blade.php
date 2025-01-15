@@ -1,0 +1,1 @@
+<h2>Selamat Datang Wakasek{{ Auth::user()->name }}</h2>
