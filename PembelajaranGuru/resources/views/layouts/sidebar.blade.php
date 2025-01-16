@@ -71,24 +71,24 @@
             @if(Auth::check() && Auth::user()->role == 'wakasek')
             <li class="header">MAIN NAVIGATION</li>
             <li class="active">
-                <a href="{{ route('kasir') }}">
+                <a href="{{ route('wakasek.dashboard') }}">
                     <i class="fa fa-home"></i> <span>Dashboard</span>
                 </a>
             </li>
             <li class="header">MAIN NAVIGATION</li>
 
             <li>
-                <a href="{{ route('admin.barang.show') }}">
-                    <i class="fa fa-shopping-cart"></i><span>Barang</span>
+                <a href="{{ route('wakasek.dataGuru.index') }}">
+                    <i class="fa fa-shopping-cart"></i><span>Data Guru</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.orders.index') }}">
-                    <i class="fa fa-cart-arrow-down"></i> <span>Order</span>
+                <a href="{{ route('wakasek.blangkos.index') }}">
+                    <i class="fa fa-cart-arrow-down"></i> <span>Blangko</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.orders.history') }}">
+                <a href="">
                     <i class="fa fa-history"></i> <span>History</span>
                 </a>
             </li>

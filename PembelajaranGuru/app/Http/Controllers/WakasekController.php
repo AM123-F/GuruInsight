@@ -9,6 +9,6 @@ class WakasekController extends Controller
     public function dashboard()
     {
         return view('wakasek.dashboard');
-        
     }
+    
 }
