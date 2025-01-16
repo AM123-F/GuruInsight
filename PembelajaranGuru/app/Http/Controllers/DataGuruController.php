@@ -2,75 +2,88 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Imports\GuruImport;
 use App\Models\Guru;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\GuruImport;
 
 class DataGuruController extends Controller
 {
-    // Menampilkan daftar guru
     public function index()
     {
         $gurus = Guru::all();
         return view('wakasek.dataGuru.index', compact('gurus'));
     }
 
-    // Form tambah guru manual
     public function create()
     {
         return view('wakasek.dataGuru.create');
     }
 
-    // Simpan data guru baru
     public function store(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'nip' => 'required|string|max:20|unique:gurus,nip',
+            'nip' => 'required|string|max:255|unique:gurus',
             'password' => 'required|string|min:8',
         ]);
 
-        Guru::create([
+        $guru = Guru::create([
             'nama' => $request->nama,
             'nip' => $request->nip,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
         ]);
 
-        return redirect()->route('wakasek.dataGuru.index')->with('success', 'Guru berhasil ditambahkan!');
+        User::create([
+            'name' => $guru->nama,
+            'nis' => $guru->nip,
+            'password' => Hash::make($request->password),
+            'role' => 'guru',
+        ]);
+
+        return redirect()->route('wakasek.dataGuru.index')->with('success', 'Data guru berhasil ditambahkan!');
     }
 
-    // Form edit guru
     public function edit(Guru $guru)
     {
         return view('wakasek.dataGuru.edit', compact('guru'));
     }
 
-    // Update data guru
     public function update(Request $request, Guru $guru)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'nip' => 'required|string|max:20|unique:gurus,nip,' . $guru->id,
-            'password' => 'nullable|string|min:8',
+            'nip' => "required|string|max:255|unique:gurus,nip,{$guru->id}",
         ]);
 
-        $guru->update([
-            'nama' => $request->nama,
-            'nip' => $request->nip,
-            'password' => $request->password ? Hash::make($request->password) : $guru->password,
-        ]);
+        $guru->update($request->only('nama', 'nip'));
+
+        $user = User::where('nis', $guru->nip)->first();
+        if ($user) {
+            $user->update([
+                'name' => $guru->nama,
+            ]);
+        }
 
         return redirect()->route('wakasek.dataGuru.index')->with('success', 'Data guru berhasil diperbarui!');
     }
 
-    // Hapus data guru
     public function destroy(Guru $guru)
     {
+        $user = User::where('nis', $guru->nip)->first();
+        if ($user) {
+            $user->delete();
+        }
+
         $guru->delete();
+
         return redirect()->route('wakasek.dataGuru.index')->with('success', 'Data guru berhasil dihapus!');
     }
+
+
 
     // Form import data guru
     public function import()

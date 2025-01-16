@@ -3,34 +3,19 @@
 @section('content')
 <div class="container">
     <h1>Upload Blangko</h1>
-
-    <!-- Menampilkan error jika ada -->
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <form action="{{ route('wakasek.blangkos.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('wakasek.wakasek.blangkos.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <label for="judul">Judul Blangko</label>
-        <input type="text" id="judul" name="judul" required value="{{ old('judul') }}">
+        <div class="form-group">
+            <label for="judul">Judul</label>
+            <input type="text" name="judul" id="judul" class="form-control" required>
+        </div>
 
-        <!-- Menampilkan error untuk 'judul' -->
-        @error('judul')
-            <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
+        <div class="form-group">
+            <label for="file">File Blangko</label>
+            <input type="file" name="file" id="file" class="form-control" required>
+        </div>
 
-        <label for="file">Pilih File</label>
-        <input type="file" id="file" name="file" required>
-
-        <!-- Menampilkan error untuk 'file' -->
-        @error('file')
-            <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-
-        <button type="submit">Unggah Blangko</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
     </form>
-
 </div>
 @endsection

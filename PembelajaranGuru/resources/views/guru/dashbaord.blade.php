@@ -49,6 +49,9 @@
         }
     </style>
 </head>
+@extends('layouts.master')
+
+@section('content')
 <body>
     <div class="container">
         <!-- Header -->
@@ -144,4 +147,5 @@
         </div>
     </div>
 </body>
+@endsection
 </html>

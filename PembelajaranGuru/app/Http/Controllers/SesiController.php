@@ -40,7 +40,7 @@ class SesiController extends Controller
             } elseif ($user->role == 'wakasek') {
                 return redirect('/wakasek/dashboard');
             } elseif ($user->role == 'guru') {
-                return redirect('/guru');
+                return redirect('/guru/dashboard');
             }
         } else {
             return redirect()
