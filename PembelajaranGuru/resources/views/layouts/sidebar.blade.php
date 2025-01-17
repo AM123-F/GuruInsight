@@ -18,95 +18,91 @@
         <ul class="sidebar-menu">
             <!-- Sidebar for Admin role -->
             @if(Auth::check() && Auth::user()->role == 'kepsek')
-                <li class="active">
+                <li class="{{ Request::routeIs('kepsek.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('kepsek.dashboard') }}">
                         <i class="fa fa-home"></i> <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="header">MAIN NAVIGATION</li>
-                <li>
+                <li class="{{ Request::is('kasir*') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-users"></i> <span>Kasir</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ Request::is('jenis-pembayaran*') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-credit-card"></i> <span>Jenis Pembayaran</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ Request::is('barang*') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-shopping-cart"></i> <span>Barang</span>
                     </a>
                 </li>
-                <li class="header">MAIN NAVIGATION</li>
-
-                <li>
+                <li class="{{ Request::is('order*') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-cart-arrow-down"></i> <span>Order</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ Request::is('laporan*') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-book"></i> <span>Laporan</span>
                     </a>
                 </li>
-                <li class="header">MAIN NAVIGATION</li>
             @endif
 
             <!-- Sidebar for Wakasek role -->
             @if(Auth::check() && Auth::user()->role == 'wakasek')
-                <li class="active">
+                <li class="{{ Request::routeIs('Wakasek.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('Wakasek.dashboard') }}">
                         <i class="fa fa-home"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="header">MAIN NAVIGATION</li>
-
-                <li>
+                <li class="header"></li>
+                <li class="{{ Request::routeIs('wakasek.dataGuru.index') ? 'active' : '' }}">
                     <a href="{{ route('wakasek.dataGuru.index') }}">
-                        <i class="fa fa-users"></i><span>Data Guru</span>
+                        <i class="fa fa-users"></i> <span>Data Guru</span>
                     </a>
                 </li>
-                
-                <li>
+                <li class="{{ Request::routeIs('wakasek.wakasek.blangkos.index') ? 'active' : '' }}">
                     <a href="{{ route('wakasek.wakasek.blangkos.index') }}">
-                      <i class="fa fa-upload"></i> <span>Upload Format</span>
-                    </a>
-                  </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-history"></i> <span>History</span>
+                        <i class="fa fa-upload"></i> <span>Upload Format</span>
                     </a>
                 </li>
-                <li class="header">MAIN NAVIGATION</li>
+                <li class="{{ Request::routeIs('wakasek.wakasek.uploads') ? 'active' : '' }}">
+                    <a href="{{ route('wakasek.wakasek.uploads') }}">
+                        <i class="fa fa-history"></i> <span>Data Pengumpulan</span>
+                    </a>
+                </li>
+                <li class="header"></li>
             @endif
 
             <!-- Sidebar for Guru role -->
             @if(Auth::check() && Auth::user()->role == 'guru')
-                <li class="header">MAIN NAVIGATION</li>
-                <li>
+                <li class="{{ Request::routeIs('guru.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('guru.dashboard') }}">
                         <i class="fa fa-file"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-shopping-cart"></i><span>Barang</span>
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="{{ Request::routeIs('guru.guru.blangko') ? 'active' : '' }}">
+                    <a href="{{ route('guru.guru.blangko') }}">
+                        <i class="fa fa-file-alt"></i> <span>Dokumen Pengerjaan</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-history"></i> <span>History</span>
+                <li class="{{ Request::routeIs('guru.guru.guru.upload.tugas.form') ? 'active' : '' }}">
+                    <a href="{{ route('guru.guru.guru.upload.tugas.form') }}">
+                        <i class="fa fa-upload"></i> <span>Upload Dokumen</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ Request::is('laporan*') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-book"></i> <span>Laporan</span>
                     </a>
                 </li>
             @endif
 
+            <!-- Logout -->
             <li>
                 <a href="/logout">
                     <i class="fa fa-sign-out-alt"></i> <span>Logout</span>
@@ -115,44 +111,3 @@
         </ul>
     </section>
 </aside>
-
-<style>
-    /* Active Sidebar Link Style */
-    .sidebar-menu li.active > a {
-        background-color: #007bff;
-        color: #fff;
-    }
-
-    .sidebar-menu li.active > a i {
-        color: #fff;
-    }
-
-    /* Add transition for smooth animation */
-    .sidebar-menu li a {
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .sidebar-menu li:hover > a {
-        background-color: #f4f6f9;
-    }
-
-    /* Sidebar hover effect */
-    .sidebar-menu li a {
-        display: flex;
-        align-items: center;
-        padding: 10px 15px;
-    }
-</style>
-
-<script>
-    // jQuery to add smooth animations and toggle active state
-    $(document).ready(function() {
-        $('.sidebar-menu li a').on('click', function() {
-            // Remove active class from all sidebar items
-            $('.sidebar-menu li').removeClass('active');
-
-            // Add active class to the clicked item
-            $(this).parent('li').addClass('active');
-        });
-    });
-</script>

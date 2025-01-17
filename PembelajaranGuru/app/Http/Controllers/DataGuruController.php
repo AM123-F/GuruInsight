@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Imports\GuruImport;
+use App\Import\GuruImport;
 use App\Models\Guru;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -86,22 +86,22 @@ class DataGuruController extends Controller
 
 
     // Form import data guru
-    public function import()
-    {
-        return view('wakasek.dataGuru.import'); // Pastikan file ini ada di folder resources/views/wakasek/dataGuru
-    }
+    // public function import()
+    // {
+    //     return view('wakasek.dataGuru.import'); // Pastikan file ini ada di folder resources/views/wakasek/dataGuru
+    // }
 
-    public function storeImport(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|mimes:xlsx,xls,csv', // Validasi format file
-        ]);
+    // public function storeImport(Request $request)
+    // {
+    //     $request->validate([
+    //         'file' => 'required|mimes:xlsx,xls,csv', // Validasi format file
+    //     ]);
 
-        try {
-            Excel::import(new GuruImport, $request->file('file')); // Proses import file
-            return redirect()->route('wakasek.dataGuru.index')->with('success', 'Data guru berhasil diimport!');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
-    }
+    //     try {
+    //         Excel::import(new GuruImport, $request->file('file')); // Proses import file
+    //         return redirect()->route('wakasek.dataGuru.index')->with('success', 'Data guru berhasil diimport!');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+    //     }
+    // }
 }

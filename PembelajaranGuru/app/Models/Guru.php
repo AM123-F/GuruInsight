@@ -9,5 +9,10 @@ class Guru extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'email', 'nip', 'password'];
+    protected $fillable = ['nama', 'nip', 'password'];
+
+    public function dokumens()
+    {
+        return $this->hasMany(Dokumen::class, 'guru_id', 'id');
+    }
 }

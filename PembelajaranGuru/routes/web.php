@@ -5,8 +5,10 @@ use App\Http\Controllers\DataGuruController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\KepsekController;
 use App\Http\Controllers\SesiController;
+use App\Http\Controllers\WakasekUploadController;
 use App\Http\Controllers\WakasekController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -45,6 +47,8 @@ Route::middleware(['auth'])->group(function(){
 Route::middleware(['auth', 'role:wakasek'])->prefix('wakasek')->name('wakasek.')->group(function () {
     Route::get('/dashboard-wakasek', [WakasekController::class, 'dashboard'])->name('wakasek.dashboard');
 
+    Route::get('/wakasek/uploads', [WakasekUploadController::class, 'index'])->name('wakasek.uploads');
+
 
         Route::get('/blangkos/index', [BlangkoController::class, 'index'])->name('wakasek.blangkos.index');
         Route::get('/blangkos/create', [BlangkoController::class, 'create'])->name('wakasek.blangkos.create');
@@ -64,7 +68,11 @@ Route::middleware(['auth', 'role:wakasek'])->prefix('wakasek')->name('wakasek.')
     Route::post('/data-guru/import', [DataGuruController::class, 'storeImport'])->name('dataGuru.storeImport'); // Proses upload file
 });
 
-Route::middleware(['auth', 'role:wakasek'])->prefix('wakasek')->name('wakasek.')->group(function () {
+Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
+    Route::get('/blangko', [GuruController::class, 'blangko'])->name('guru.blangko');
+    Route::get('guru/guru/upload-tugas', [GuruController::class, 'showUploadForm'])->name('guru.guru.upload.tugas.form');
+    Route::post('guru/guru/upload-tugas', [GuruController::class, 'storeTugas'])->name('guru.guru.upload.store');
+
     
 });
 
