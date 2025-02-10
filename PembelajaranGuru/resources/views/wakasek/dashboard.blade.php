@@ -1,30 +1,69 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="main-content" style="padding: 20px; font-family: Arial, sans-serif;">
-  <div class="header" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;">Welcome, {{ Auth::user()->name }}</div>
-  
-  <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-    <div class="card" style="background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
-      <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Total Guru</h3>
-      <p style="font-size: 1rem; color: #555;">{{ $totalGuru }}</p>
-  </div>
-    <div class="card" style="background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
-      <h3 style="font-size: 1.2rem; margin-bottom: 10px;">#</h3>
-      <p style="font-size: 1rem; color: #555;">45</p>
-    </div>
-    <div class="card" style="background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
-      <h3 style="font-size: 1.2rem; margin-bottom: 10px;">#</h3>
-      <p style="font-size: 1rem; color: #555;">23</p>
-    </div>
-    <div class="card" style="background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
-      <h3 style="font-size: 1.2rem; margin-bottom: 10px;">#</h3>
-      <p style="font-size: 1rem; color: #555;">$12,000</p>
-    </div>
+<style>
+.circle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.circle {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #28a745 {{ $uploadPercentage }}%, /* Green for uploaded */
+        #dc3545 0% {{ 100 - $uploadPercentage }}% /* Red for not uploaded */
+    );
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow */
+    transition: background 1s ease; /* Smooth transition */
+}
+
+.circle .percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    font-family: 'Arial', sans-serif; /* A more modern font */
+    letter-spacing: 1px;
+}
+
+.circle-label {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    font-family: 'Arial', sans-serif;
+}
+
+
+</style>
+<div class="container mt-5">
+  <!-- Title -->
+  <h3 class="text-center mb-4">Persentase Guru yang Sudah Mengupload Dokumen</h3>
+
+  <!-- Circular Progress Bar -->
+  <div class="circle-container">
+      <div class="circle">
+          <div class="percentage">
+              {{ round($uploadPercentage, 2) }}%
+          </div>
+      </div>
   </div>
 
-  <div class="footer" style="margin-top: 20px; text-align: center; font-size: 0.9rem; color: #777;">
-    © 2025 Admin Dashboard. All rights reserved.
+  <!-- Additional Information -->
+  <div class="circle-label mt-3">
+      <p>{{ $teachersWithUploads }} dari {{ $totalTeachers }} guru telah mengupload dokumen.</p>
+  </div>
+
+  <!-- Extra Visual Elements (Optional) -->
+  <div class="text-center mt-4">
+      <p class="text-muted">Angka ini menunjukkan persentase guru yang sudah mengupload dokumen di sistem.</p>
   </div>
 </div>
 @endsection

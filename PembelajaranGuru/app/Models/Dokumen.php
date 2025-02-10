@@ -9,7 +9,7 @@ class Dokumen extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['guru_id', 'judul', 'file_path'];
+    protected $fillable = ['judul', 'jenis', 'file_path', 'guru_id'];
 
     public function guru()
     {

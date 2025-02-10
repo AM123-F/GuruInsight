@@ -8,9 +8,31 @@
             <a href="{{ route('wakasek.dataGuru.create') }}" class="btn btn-primary shadow-sm">
                 <i class="fas fa-plus me-2"></i> Tambah Guru
             </a>
-            <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#importModal">
-                <i class="fas fa-file-import me-2"></i> Import Data
+            <button class="dropdown-item d-flex align-items-center dropdown-hover" onclick="openModal()">
+                <i class="bi bi-upload me-2" style="font-size: 18px; color: #007bff;"></i> 
+                <span>Import Excel</span>
             </button>
+        </div>
+    </div>
+
+    <!-- Modal Import -->
+    <div id="importModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <form action="{{ route('wakasek.dataGuruImport') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Import Data Guru File Excel</label>
+                        <input type="file" class="form-control" name="file" id="file" required>
+                        <small class="text-muted">Format file yang didukung: .xlsx, .xls</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-success">Import</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -21,7 +43,6 @@
         </div>
     @endif
 
-    <!-- Tabel Data Guru -->
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -29,8 +50,9 @@
                     <thead class="table-light">
                         <tr>
                             <th style="width: 5%;" class="text-center">No</th>
-                            <th>Nama</th>
                             <th>NIP</th>
+                            <th>Nama</th>
+                            <th>Mata Pelajaran</th>
                             <th style="width: 20%;" class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -38,8 +60,9 @@
                         @forelse($gurus as $guru)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>{{ $guru->nama }}</td>
                             <td>{{ $guru->nip }}</td>
+                            <td>{{ $guru->nama }}</td>
+                            <td>{{ $guru->mapel ? $guru->mapel->nama : '-' }}</td>
                             <td class="text-center">
                                 <a href="{{ route('wakasek.dataGuru.edit', $guru->id) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit me-1"></i>Edit
@@ -55,7 +78,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center text-muted py-3">Tidak ada data guru yang tersedia.</td>
+                            <td colspan="5" class="text-center text-muted py-3">Tidak ada data guru yang tersedia.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -64,36 +87,14 @@
         </div>
     </div>
 </div>
+<script>
+    function openModal() {
+        document.getElementById('importModal').style.display = 'block';
+    }
 
-<!-- Modal untuk Import Data -->
-<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="{{ route('wakasek.dataGuru.import') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title" id="importModalLabel">
-                        <i class="fas fa-upload me-2"></i>Import Data Guru
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="file" class="form-label">Upload File Excel</label>
-                        <input type="file" class="form-control" name="file" id="file" required>
-                        <small class="text-muted">Format file yang didukung: .xlsx, .xls</small>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-1"></i>Tutup
-                    </button>
-                    <button type="submit" class="btn btn-success">
-                        <i class="fas fa-check me-1"></i>Import
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+    function closeModal() {
+        document.getElementById('importModal').style.display = 'none';
+    }
+</script>
+
 @endsection

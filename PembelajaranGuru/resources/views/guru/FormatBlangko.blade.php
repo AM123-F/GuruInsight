@@ -1,51 +1,65 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="container mt-5">
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-primary">📄 Daftar Blangko</h1>
+<div class="container">
+    <h1>Daftar Blangko</h1>
 
-    </div>
+    <!-- Filter dan Pencarian -->
+    <form method="GET" action="{{ route('wakasek.wakasek.blangkos.index') }}" class="mb-4 d-flex align-items-center">
+        <!-- Filter Berdasarkan Jenis -->
+        <select name="filter_jenis" class="form-control me-2">
+            <option value="">-- Semua Jenis --</option>
+            @foreach ($jenisOptions as $jenis)
+                <option value="{{ $jenis }}" {{ request('filter_jenis') == $jenis ? 'selected' : '' }}>
+                    {{ $jenis }}
+                </option>
+            @endforeach
+        </select>
+        
+        <!-- Input Pencarian -->
+        <input type="text" name="search" class="form-control me-2" placeholder="Cari blangko..." value="{{ request('search') }}">
+        
+        <!-- Tombol Search -->
+        <button type="submit" class="btn btn-success me-2">
+            <i class="fa fa-search"></i> Search
+        </button>
 
-    <!-- Table -->
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">List Blangko</h5>
-        </div>
-        <div class="card-body p-0">
-            <table class="table table-hover table-striped mb-0">
-                <thead class="table-primary">
-                    <tr>
-                        <th style="width: 5%">No</th>
-                        <th style="width: 35%">Judul</th>
-                        <th style="width: 30%">File</th>
-                        <th style="width: 30%">Tanggal Unggah</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($blangkos as $blangko)
-                        <tr>
-                            <td class="align-middle text-center">{{ $loop->iteration }}</td>
-                            <td class="align-middle">{{ $blangko->judul }}</td>
-                            <td class="align-middle">
-                                <a href="{{ asset('storage/' . $blangko->file_path) }}" download="{{ basename($blangko->file_path) }}" class="btn btn-outline-info btn-sm">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </td>
-                            <td class="align-middle">{{ $blangko->created_at->format('d M Y, H:i') }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="text-center text-muted py-3">
-                                <em>Belum ada blangko yang diunggah.</em>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <!-- Tombol Reset Filter -->
+        @if(request('filter_jenis') || request('search'))
+            <a href="{{ route('wakasek.wakasek.blangkos.index') }}" class="btn btn-warning">
+                <i class="fa fa-refresh"></i> Reset
+            </a>
+        @endif
+    </form>
+
+    <!-- Tabel Blangko -->
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Jenis</th>
+                <th>File</th>
+                <th>Tanggal Unggah</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($blangkos as $blangko)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $blangko->jenis }}</td>
+                    <td>
+                        <a href="{{ asset('storage/' . $blangko->file_path) }}" download class="btn btn-info btn-sm">
+                            Download
+                        </a>
+                    </td>
+                    <td>{{ $blangko->created_at->format('d M Y H:i') }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" class="text-center text-muted">Tidak ada data ditemukan.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 </div>
-
 @endsection

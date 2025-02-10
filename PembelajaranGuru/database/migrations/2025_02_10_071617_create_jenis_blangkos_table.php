@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blangkos', function (Blueprint $table) {
+        Schema::create('jenis_blangkos', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis'); // Langsung gunakan 'jenis' daripada 'judul'
-            $table->string('file_path'); // Menyimpan path file
+            $table->string('nama');
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('blangkos');
+        Schema::dropIfExists('jenis_blangkos');
     }
 };

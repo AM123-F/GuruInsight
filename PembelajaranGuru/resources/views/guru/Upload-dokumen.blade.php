@@ -24,15 +24,32 @@
         <div class="row mb-4">
             <div class="col-md-6">
                 <label for="judul" class="form-label">Judul Dokumen</label>
-                <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul dokumen" required>
+                <input type="text" class="form-control" id="judul" name="judul" required>
             </div>
             <div class="col-md-6">
-                <label for="file" class="form-label">Pilih File</label>
-                <input type="file" class="form-control" id="file" name="file" required>
-                <small class="text-muted">Format file yang diizinkan: .pdf, .docx, .xlsx, dll.</small>
+                <label for="jenis" class="form-label">Jenis Dokumen</label>
+                <select class="form-control" id="jenis" name="jenis" required>
+                    <option value="">Pilih Jenis Dokumen</option>
+                    <option value="silabus">Silabus</option>
+                    <option value="rpp">Rencana Pelaksanaan Pembelajaran</option>
+                    <option value="prota">Program Tahunan</option>
+                    <option value="promes">Program Semester</option>
+                    <option value="kalender">Kalender Pendidikan</option>
+                    <option value="rme">Rincian Minggu Efektif</option>
+                    <option value="jadwal_mengajar">Jadwal Mengajar</option>
+                    <option value="jadwal_pelajaran">Jadwal Pelajaran</option>
+                    <option value="kkm">Kriteria Ketuntasan Minimal</option>
+                    <option value="daftar_penilaian">Daftar Penilaian Pembelajaran</option>
+                    <option value="lks">Lembar Kegiatan Siswa</option>
+                    <option value="instrumen_evaluasi">Instrumen Evaluasi atau Hasil Tes Belajar</option>
+                </select>
             </div>
         </div>
-        
+        <div class="mb-4">
+            <label for="file" class="form-label">Pilih File</label>
+            <input type="file" class="form-control" id="file" name="file" required>
+            <small class="text-muted">Format file yang diizinkan: .pdf, .docx, .xlsx, dll.</small>
+        </div>
         <button type="submit" class="btn btn-primary">Upload</button>
     </form>
 
@@ -43,22 +60,30 @@
             <thead class="thead-dark">
                 <tr>
                     <th>No</th>
-                    <th>Judul Dokumen</th>
+                    <th>Jenis Dokumen</th>
                     <th>File</th>
                     <th>Tanggal Upload</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($dokumens as $dokumen)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $dokumen->judul }}</td>
+                    <td>{{ ucfirst(str_replace('_', ' ', $dokumen->jenis)) }}</td>
                     <td>
                         <a href="{{ asset('storage/' . $dokumen->file_path) }}" download="{{ basename($dokumen->file_path) }}" class="btn btn-info btn-sm">
                             Download
                         </a>
                     </td>
-                    <td>{{ $dokumen->created_at->format('d M Y H:i') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($dokumen->created_at)->timezone('Asia/Jakarta')->format('d M Y H:i') }}</td>
+                    <td>
+                        <form action="{{ route('guru.guru.guru.upload.destroy', $dokumen->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

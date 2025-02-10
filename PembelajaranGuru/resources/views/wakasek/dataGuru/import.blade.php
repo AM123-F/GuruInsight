@@ -1,41 +1,36 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">Import Data Guru</h3>
-        </div>
-        <div class="card-body">
-            <!-- Alert Success -->
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            
-            <!-- Alert Error -->
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            <!-- Form Import -->
-            <form action="{{ route('wakasek.dataGuru.storeImport') }}" method="POST" enctype="multipart/form-data" class="mt-3">
+<!-- Modal untuk Import Data -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('wakasek.dataGuru.import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="mb-3">
-                    <label for="file" class="form-label">Pilih File Excel</label>
-                    <input type="file" id="file" name="file" class="form-control" required>
-                    <small class="text-muted">Hanya file dengan format .xlsx atau .xls yang didukung.</small>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importModalLabel">
+                        <i class="fas fa-upload me-2"></i>Import Data Guru
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <button type="submit" class="btn btn-success w-100">
-                    <i class="bi bi-upload"></i> Import Data
-                </button>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Upload File Excel</label>
+                        <input type="file" class="form-control" name="file" id="file" required>
+                        <small class="text-muted">Format file yang didukung: .xlsx, .xls</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Tutup
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check me-1"></i>Import
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 </div>
+
 @endsection

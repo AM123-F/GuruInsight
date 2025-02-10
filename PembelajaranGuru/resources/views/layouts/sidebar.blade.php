@@ -75,6 +75,12 @@
                     </a>
                 </li>
                 <li class="header"></li>
+                <li class="{{ Request::routeIs('wakasek.mapel.index') ? 'active' : '' }}">
+                    <a href="{{ route('wakasek.mapel.index') }}">
+                        <i class="fa fa-history"></i> <span>Mata Pelajaran</span>
+                    </a>
+                </li>
+                <li class="header"></li>
             @endif
 
             <!-- Sidebar for Guru role -->
