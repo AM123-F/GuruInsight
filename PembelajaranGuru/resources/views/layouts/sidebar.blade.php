@@ -23,7 +23,7 @@
                         <i class="fa fa-home"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="header">MAIN NAVIGATION</li>
+                <li class="header"></li>
                 <li class="{{ Request::is('kasir*') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-users"></i> <span>Kasir</span>
@@ -53,35 +53,41 @@
 
             <!-- Sidebar for Wakasek role -->
             @if(Auth::check() && Auth::user()->role == 'wakasek')
-                <li class="{{ Request::routeIs('Wakasek.dashboard') ? 'active' : '' }}">
-                    <a href="{{ route('Wakasek.dashboard') }}">
-                        <i class="fa fa-home"></i> <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="header"></li>
-                <li class="{{ Request::routeIs('wakasek.dataGuru.index') ? 'active' : '' }}">
-                    <a href="{{ route('wakasek.dataGuru.index') }}">
-                        <i class="fa fa-users"></i> <span>Data Guru</span>
-                    </a>
-                </li>
-                <li class="{{ Request::routeIs('wakasek.wakasek.blangkos.index') ? 'active' : '' }}">
-                    <a href="{{ route('wakasek.wakasek.blangkos.index') }}">
-                        <i class="fa fa-upload"></i> <span>Upload Format</span>
-                    </a>
-                </li>
-                <li class="{{ Request::routeIs('wakasek.wakasek.uploads') ? 'active' : '' }}">
-                    <a href="{{ route('wakasek.wakasek.uploads') }}">
-                        <i class="fa fa-history"></i> <span>Data Pengumpulan</span>
-                    </a>
-                </li>
-                <li class="header"></li>
-                <li class="{{ Request::routeIs('wakasek.mapel.index') ? 'active' : '' }}">
-                    <a href="{{ route('wakasek.mapel.index') }}">
-                        <i class="fa fa-history"></i> <span>Mata Pelajaran</span>
-                    </a>
-                </li>
-                <li class="header"></li>
-            @endif
+            <li class="{{ Request::routeIs('Wakasek.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('Wakasek.dashboard') }}">
+                    <i class="fa fa-tachometer-alt"></i> <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="header"></li>
+            <li class="{{ Request::routeIs('wakasek.dataGuru.index') ? 'active' : '' }}">
+                <a href="{{ route('wakasek.dataGuru.index') }}">
+                    <i class="fa fa-chalkboard-teacher"></i> <span>Data Guru</span>
+                </a>
+            </li>
+            <li class="{{ Request::routeIs('wakasek.wakasek.blangkos.index') ? 'active' : '' }}">
+                <a href="{{ route('wakasek.wakasek.blangkos.index') }}">
+                    <i class="fa fa-file-upload"></i> <span>Upload Blangko</span>
+                </a>
+            </li>
+            <li class="{{ Request::routeIs('wakasek.wakasek.uploads') ? 'active' : '' }}">
+                <a href="{{ route('wakasek.wakasek.uploads') }}">
+                    <i class="fa fa-folder-open"></i> <span>Pengumpulan Blangko</span>
+                </a>
+            </li>
+            <li class="header"></li>
+            <li class="{{ Request::routeIs('wakasek.mapel.index') ? 'active' : '' }}">
+                <a href="{{ route('wakasek.mapel.index') }}">
+                    <i class="fa fa-book"></i> <span>Mata Pelajaran</span>
+                </a>
+            </li>
+            <li class="{{ Request::routeIs('jenis_blangko.index') ? 'active' : '' }}">
+                <a href="{{ route('jenis_blangko.index') }}">
+                    <i class="fa fa-file-alt"></i> <span>Jenis Blangko</span>
+                </a>
+            </li>
+            <li class="header"></li>
+        @endif
+        
 
             <!-- Sidebar for Guru role -->
             @if(Auth::check() && Auth::user()->role == 'guru')
@@ -90,7 +96,6 @@
                         <i class="fa fa-file"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="header">MAIN NAVIGATION</li>
                 <li class="{{ Request::routeIs('guru.guru.blangko') ? 'active' : '' }}">
                     <a href="{{ route('guru.guru.blangko') }}">
                         <i class="fa fa-file-alt"></i> <span>Dokumen Pengerjaan</span>
@@ -101,6 +106,7 @@
                         <i class="fa fa-upload"></i> <span>Upload Dokumen</span>
                     </a>
                 </li>
+                <li class="header"></li>
                 <li class="{{ Request::is('laporan*') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-book"></i> <span>Laporan</span>

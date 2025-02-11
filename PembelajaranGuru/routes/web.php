@@ -3,12 +3,14 @@
 use App\Http\Controllers\BlangkoController;
 use App\Http\Controllers\DataGuruController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\JenisBlangkoController;
 use App\Http\Controllers\KepsekController;
 use App\Http\Controllers\MapelController;
 use App\Http\Controllers\SesiController;
 use App\Http\Controllers\WakasekController;
 use App\Http\Controllers\WakasekUploadController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -29,13 +31,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/landing', function () {
     return view('welcome');
 });
 Route::middleware(['guest'])->group(function(){
 
-Route::get('/login' , [SesiController::class, 'index'])->name('login');
-Route::post('/login' , [SesiController::class, 'login']);
+Route::get('/' , [SesiController::class, 'index'])->name('login');
+Route::post('/' , [SesiController::class, 'login']);
 });
  
 Route::middleware(['auth'])->group(function(){
@@ -91,6 +93,11 @@ Route::middleware(['auth', 'role:wakasek'])->prefix('wakasek')->name('wakasek.')
     Route::get('/mapel/{id}/edit', [MapelController::class, 'edit'])->name('mapel.edit');
     Route::put('/mapel/{id}', [MapelController::class, 'update'])->name('mapel.update');
     Route::delete('/mapel/{id}', [MapelController::class, 'destroy'])->name('mapel.destroy');
+    Route::get('/wakasek/mapel/{id}', [MapelController::class, 'show'])->name('wakasek.mapel.show');
+
+});
+Route::prefix('wakasek')->group(function () {
+    Route::resource('jenis_blangko', JenisBlangkoController::class);
 });
 
 

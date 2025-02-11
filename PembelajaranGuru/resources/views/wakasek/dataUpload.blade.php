@@ -1,89 +1,57 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="container mt-5">
-    <h1 class="text-center">Daftar Dokumen yang Diupload</h1>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">📚 Data Pengumpulan Mata Pelajaran</h1>
 
-    <!-- Filter Dokumen -->
-    <div class="mt-3 mb-4">
-        <form method="GET" action="#">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="filter_jenis" class="form-label">Filter berdasarkan Jenis Dokumen</label>
-                    <select class="form-control" id="filter_jenis" name="filter_jenis" onchange="this.form.submit()">
-                        <option value="">Semua Jenis</option>
-                        <option value="silabus">Silabus</option>
-                        <option value="rpp">Rencana Pelaksanaan Pembelajaran</option>
-                        <option value="prota">Program Tahunan</option>
-                        <option value="promes">Program Semester</option>
-                        <option value="kalender">Kalender Pendidikan</option>
-                        <option value="rme">Rincian Minggu Efektif</option>
-                        <option value="jadwal_mengajar">Jadwal Mengajar</option>
-                        <option value="jadwal_pelajaran">Jadwal Pelajaran</option>
-                        <option value="kkm">Kriteria Ketuntasan Minimal</option>
-                        <option value="daftar_penilaian">Daftar Penilaian Pembelajaran</option>
-                        <option value="lks">Lembar Kegiatan Siswa</option>
-                        <option value="instrumen_evaluasi">Instrumen Evaluasi</option>
-                    </select>
-                </div>
-            </div>
-        </form>
-    </div>
+    <div class="row justify-content-center">
+        @foreach ($mapels as $mapel)
+            <div class="col-md-3"> <!-- Lebar dikurangi agar lebih kecil -->
+                <div class="card shadow-lg border-0 p-2 mb-3 text-center"
+                     style="background: #f8f9fa; transition: transform 0.3s ease-in-out; border-radius: 10px;">
+                    
+                    <div class="card-body p-3">
+                        <!-- Mata Pelajaran Icon -->
+                        @if ($mapel->logo)
+                            <div class="d-flex justify-content-center mb-2">
+                                <img src="{{ asset('storage/' . $mapel->logo) }}" 
+                                     alt="Logo {{ $mapel->nama }}" 
+                                     class="shadow-sm border p-1"
+                                     style="width: 75px; height: 75px; object-fit: cover; border-radius: 10px;">
+                            </div>
+                        @endif
 
-    <!-- Tabel Daftar Dokumen -->
-    <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>No</th>
-                <th>Nama Guru</th>
-                <th>Jenis Dokumen</th>
-                <th>File</th>
-                <th>Tanggal Upload</th>
-                <th>Preview</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($dokumens as $dokumen)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ optional($dokumen->guru)->name }}</td>
-                <td>{{ ucfirst(str_replace('_', ' ', $dokumen->jenis)) }}</td>
-                <td>
-                    <a href="{{ asset('storage/' . $dokumen->file_path) }}" download class="btn btn-info btn-sm">Download</a>
-                </td>
-                <td>{{ \Carbon\Carbon::parse($dokumen->created_at)->timezone('Asia/Jakarta')->format('d M Y H:i') }}</td>
-                <td>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#previewModal{{ $dokumen->id }}">Preview</button>
-                </td>
-            </tr>
-            <!-- Modal Preview -->
-            <div class="modal fade" id="previewModal{{ $dokumen->id }}" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Preview Dokumen</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body text-center">
-                            @if(in_array(pathinfo($dokumen->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
-                                <img src="{{ asset('storage/' . $dokumen->file_path) }}" class="img-fluid" alt="Preview Image">
-                            @elseif(in_array(pathinfo($dokumen->file_path, PATHINFO_EXTENSION), ['pdf']))
-                                <iframe src="{{ asset('storage/' . $dokumen->file_path) }}" width="100%" height="500px"></iframe>
-                            @else
-                                <p>Preview tidak tersedia untuk jenis file ini.</p>
-                            @endif
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <!-- Nama Mata Pelajaran -->
+                        <h6 class="card-title font-weight-bold text-primary mb-1">{{ $mapel->nama }}</h6>
+
+                        <!-- Status Badge -->
+                        @php
+                            $totalPengumpulan = $mapel->dokumen()->count();
+                        @endphp
+                        <span class="badge {{ $totalPengumpulan > 0 ? 'bg-success' : 'bg-danger' }} px-2 py-1">
+                            {{ $totalPengumpulan > 0 ? '✅ Ada' : '❌ Tidak Ada' }}
+                        </span>
+
+                        <!-- Tombol Lihat Pengumpulan -->
+                        <div class="mt-2">
+                            <a href="{{ route('wakasek.wakasek.mapel.show', $mapel->id) }}" 
+                               class="btn btn-outline-primary btn-sm shadow-sm"
+                               style="border-radius: 6px; padding: 5px 10px; font-size: 12px;">
+                                📂 Lihat
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            @endforeach
-        </tbody>
-    </table>
+        @endforeach
+    </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Tambahkan efek hover -->
+<style>
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.12);
+    }
+</style>
 @endsection

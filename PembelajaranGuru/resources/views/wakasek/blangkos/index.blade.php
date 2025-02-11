@@ -47,14 +47,17 @@
         <tbody>
             @forelse ($blangkos as $blangko)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $blangko->jenis }}</td>
+                    <td>{{ $blangko->id }}</td>
+                    <td>{{ $blangko->jenis->nama }}</td> {{-- Ambil nama dari relasi --}}
                     <td>
+                        <a href="{{ asset('storage/' . $blangko->file_path) }}" target="_blank" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye"></i> Lihat File
+                        </a>
                         <a href="{{ asset('storage/' . $blangko->file_path) }}" download class="btn btn-info btn-sm">
                             Download
                         </a>
                     </td>
-                    <td>{{ $blangko->created_at->format('d M Y H:i') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($blangko->created_at)->timezone('Asia/Jakarta')->format('d M Y H:i') }}</td>
                     <td>
                         <a href="{{ route('wakasek.wakasek.blangkos.edit', $blangko->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('wakasek.wakasek.blangkos.destroy', $blangko->id) }}" method="POST" style="display:inline;">

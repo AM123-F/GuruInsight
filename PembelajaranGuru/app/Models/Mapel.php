@@ -11,11 +11,15 @@ class Mapel extends Model
 
     protected $table = 'mapels'; // Pastikan tabel sesuai dengan nama di database
 
-    protected $fillable = ['nama']; // Tambahkan kolom yang diperbolehkan untuk mass assignment
+    protected $fillable = ['nama','logo']; // Tambahkan kolom yang diperbolehkan untuk mass assignment
 // app/Models/Mapel.php
 public function gurus()
 {
     return $this->hasMany(Guru::class);
 }
+public function dokumen()
+    {
+        return $this->hasMany(Dokumen::class, 'mapel_id', 'id');
+    }
 
 }
