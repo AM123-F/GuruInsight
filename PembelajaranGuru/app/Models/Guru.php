@@ -4,22 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Guru extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'nip', 'password', 'mapel_id'];
-
+    protected $fillable = ['nama', 'nip', 'password'];
 
     public function dokumens()
     {
         return $this->hasMany(Dokumen::class, 'guru_id', 'id');
     }
-// app/Models/Guru.php
-public function mapel()
-{
-    return $this->belongsTo(Mapel::class, 'mapel_id');
-}
 
+    // Mengubah relasi mapel ke many-to-many
+    public function mapels(): BelongsToMany
+    {
+        return $this->belongsToMany(Mapel::class, 'guru_mapel', 'guru_id', 'mapel_id');
+    }
+    
+    
 }

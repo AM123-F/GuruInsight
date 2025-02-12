@@ -13,7 +13,7 @@ class WakasekUploadController extends Controller
     {
         $mapels = Mapel::with('dokumen')->get();
         
-        $dokumens = Dokumen::with('guru')->get();
+        $dokumens = Dokumen::with('gurus')->get();
 
         // Count the number of teachers who have uploaded documents
         $teachersWithUploads = Dokumen::distinct('guru_id')->count();

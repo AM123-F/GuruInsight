@@ -57,6 +57,12 @@ class MapelController extends Controller
         $mapel->update($request->all());
         return redirect()->route('wakasek.mapel.index')->with('success', 'Mata pelajaran berhasil diperbarui.');
     }
+    public function show($id)
+{
+    $mapel = Mapel::findOrFail($id);
+    return view('wakasek.mapel.show', compact('mapel'));
+}
+
 
     public function destroy($id)
     {

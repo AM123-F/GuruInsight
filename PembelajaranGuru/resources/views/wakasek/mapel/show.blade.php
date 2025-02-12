@@ -29,7 +29,7 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $dokumen->judul }}</td>
                                     <td>{{ optional($dokumen->guru)->nama }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($dokumen->created_at)->format('d M Y H:i') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($dokumen->created_at)->timezone('Asia/Jakarta')->format('d M Y H:i') }}</td>
                                     <td>
                                         <a href="{{ asset('storage/' . $dokumen->file_path) }}" download="{{ basename($dokumen->file_path) }}" class="btn btn-info btn-sm">
                                             Download

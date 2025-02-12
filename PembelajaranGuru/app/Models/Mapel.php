@@ -4,22 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Mapel extends Model
 {
     use HasFactory;
 
-    protected $table = 'mapels'; // Pastikan tabel sesuai dengan nama di database
+    protected $table = 'mapels'; 
 
-    protected $fillable = ['nama','logo']; // Tambahkan kolom yang diperbolehkan untuk mass assignment
-// app/Models/Mapel.php
-public function gurus()
-{
-    return $this->hasMany(Guru::class);
-}
-public function dokumen()
+    protected $fillable = ['nama', 'logo'];
+
+    public function dokumen()
     {
         return $this->hasMany(Dokumen::class, 'mapel_id', 'id');
     }
 
+    // Mengubah relasi guru ke many-to-many
+    public function gurus(): BelongsToMany
+    {
+        return $this->belongsToMany(Guru::class, 'guru_mapel', 'mapel_id', 'guru_id');
+    }
 }

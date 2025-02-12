@@ -12,7 +12,7 @@ class WakasekController extends Controller
     public function dashboard()
     {
         // Menghitung total guru dari tabel 'gurus'
-        $uploads = Dokumen::with('guru')->get();
+        $uploads = Dokumen::with('gurus')->get();
 
         // Count the number of teachers who have uploaded documents
         $teachersWithUploads = Dokumen::distinct('guru_id')->count();

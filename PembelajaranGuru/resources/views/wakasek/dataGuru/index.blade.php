@@ -62,7 +62,13 @@
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>{{ $guru->nip }}</td>
                             <td>{{ $guru->nama }}</td>
-                            <td>{{ $guru->mapel ? $guru->mapel->nama : '-' }}</td>
+                            <td>
+                                @if($guru->mapels->isNotEmpty())
+                                    {{ implode(', ', $guru->mapels->pluck('nama')->toArray()) }}
+                                @else
+                                    -
+                                @endif
+                            </td>
                             <td class="text-center">
                                 <a href="{{ route('wakasek.dataGuru.edit', $guru->id) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit me-1"></i>Edit
@@ -97,4 +103,4 @@
     }
 </script>
 
-@endsection
+@endsection  

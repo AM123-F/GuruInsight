@@ -28,9 +28,8 @@
             </div>
             <div class="col-md-4">
                 <label for="jenis" class="form-label">Jenis Dokumen</label>
-                <select name="jenis_id" id="jenis_id" class="form-control" required>
-                    <option value="">Pilih Jenis Blangko</option>
-                    @foreach ($jenisOptions as $jenis)
+                <select name="jenis_id" required>
+                    @foreach($jenisOptions as $jenis)
                         <option value="{{ $jenis->id }}">{{ $jenis->nama }}</option>
                     @endforeach
                 </select>
@@ -72,7 +71,7 @@
                 @foreach ($dokumens as $dokumen)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ ucfirst(str_replace('_', ' ', $dokumen->jenis)) }}</td>
+                    <td>{{ $dokumen->jenis->nama ?? 'Tidak ada' }}</td>
                     <td>{{ $dokumen->mapel ? $dokumen->mapel->nama : '-' }}</td>
                     <td>
                         <a href="{{ asset('storage/' . $dokumen->file_path) }}" download="{{ basename($dokumen->file_path) }}" class="btn btn-info btn-sm">
