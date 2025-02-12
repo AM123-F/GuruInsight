@@ -19,7 +19,7 @@ class Guru extends Authenticatable
 // app/Models/Guru.php
 public function mapel()
 {
-    return $this->belongsTo(Mapel::class, 'mapel_id'); // Pastikan kolom 'mapel_id' ada di tabel 'gurus'
+    return $this->belongsTo(Mapel::class, 'mapel_id');
 }
 
 }

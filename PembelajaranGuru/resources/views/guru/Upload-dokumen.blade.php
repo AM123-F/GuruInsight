@@ -22,16 +22,25 @@
     <form action="{{ route('guru.guru.guru.upload.store') }}" method="POST" enctype="multipart/form-data" class="mt-4">
         @csrf
         <div class="row mb-4">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label for="judul" class="form-label">Judul Dokumen</label>
                 <input type="text" class="form-control" id="judul" name="judul" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label for="jenis" class="form-label">Jenis Dokumen</label>
                 <select name="jenis_id" id="jenis_id" class="form-control" required>
                     <option value="">Pilih Jenis Blangko</option>
                     @foreach ($jenisOptions as $jenis)
                         <option value="{{ $jenis->id }}">{{ $jenis->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="mapel_id" class="form-label">Mata Pelajaran</label>
+                <select name="mapel_id" id="mapel_id" class="form-control" required>
+                    <option value="">Pilih Mata Pelajaran</option>
+                    @foreach ($mapels as $mapel)
+                        <option value="{{ $mapel->id }}">{{ $mapel->nama }}</option>
                     @endforeach
                 </select>
             </div>
@@ -53,6 +62,7 @@
                 <tr>
                     <th>No</th>
                     <th>Jenis Dokumen</th>
+                    <th>Mata Pelajaran</th>
                     <th>File</th>
                     <th>Tanggal Upload</th>
                     <th>Aksi</th>
@@ -63,6 +73,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ ucfirst(str_replace('_', ' ', $dokumen->jenis)) }}</td>
+                    <td>{{ $dokumen->mapel ? $dokumen->mapel->nama : '-' }}</td>
                     <td>
                         <a href="{{ asset('storage/' . $dokumen->file_path) }}" download="{{ basename($dokumen->file_path) }}" class="btn btn-info btn-sm">
                             Download
