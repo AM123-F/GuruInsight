@@ -28,23 +28,15 @@
             </div>
             <div class="col-md-6">
                 <label for="jenis" class="form-label">Jenis Dokumen</label>
-                <select class="form-control" id="jenis" name="jenis" required>
-                    <option value="">Pilih Jenis Dokumen</option>
-                    <option value="silabus">Silabus</option>
-                    <option value="rpp">Rencana Pelaksanaan Pembelajaran</option>
-                    <option value="prota">Program Tahunan</option>
-                    <option value="promes">Program Semester</option>
-                    <option value="kalender">Kalender Pendidikan</option>
-                    <option value="rme">Rincian Minggu Efektif</option>
-                    <option value="jadwal_mengajar">Jadwal Mengajar</option>
-                    <option value="jadwal_pelajaran">Jadwal Pelajaran</option>
-                    <option value="kkm">Kriteria Ketuntasan Minimal</option>
-                    <option value="daftar_penilaian">Daftar Penilaian Pembelajaran</option>
-                    <option value="lks">Lembar Kegiatan Siswa</option>
-                    <option value="instrumen_evaluasi">Instrumen Evaluasi atau Hasil Tes Belajar</option>
+                <select name="jenis_id" id="jenis_id" class="form-control" required>
+                    <option value="">Pilih Jenis Blangko</option>
+                    @foreach ($jenisOptions as $jenis)
+                        <option value="{{ $jenis->id }}">{{ $jenis->nama }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
+        
         <div class="mb-4">
             <label for="file" class="form-label">Pilih File</label>
             <input type="file" class="form-control" id="file" name="file" required>

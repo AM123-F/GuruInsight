@@ -17,15 +17,19 @@
             background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
             font-family: 'Arial', sans-serif;
             color: #333;
+            overflow: hidden;
+            position: relative;
         }
         .login-container {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             padding: 30px;
             width: 100%;
             max-width: 400px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             animation: fadeIn 1s ease-in-out;
+            z-index: 2;
+            position: relative;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
@@ -40,13 +44,13 @@
         .form-control {
             border-radius: 5px;
             margin-bottom: 20px;
-            padding: 10px;
+            padding: 10px 40px; /* Padding untuk ikon kiri dan kanan */
             border: 1px solid #ddd;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .form-control:focus {
             border-color: #6c5ce7;
-            box-shadow: 0 0 5px rgba(108, 92, 231, 0.3);
+            box-shadow: 0 0 8px rgba(108, 92, 231, 0.3);
         }
         .btn-primary {
             width: 100%;
@@ -56,25 +60,14 @@
             padding: 10px;
             font-size: 1rem;
             color: #fff;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         .btn-primary:hover {
             background-color: #5a4ad1;
+            transform: translateY(-2px);
         }
-        .footer-text {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            text-align: center;
-            color: #666;
-        }
-        .footer-text a {
-            color: #6c5ce7;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .footer-text a:hover {
-            color: #5a4ad1;
-            text-decoration: underline;
+        .btn-primary:active {
+            transform: translateY(0);
         }
         .input-icon {
             position: relative;
@@ -86,8 +79,15 @@
             transform: translateY(-50%);
             color: #777;
         }
-        .input-icon input {
-            padding-left: 40px;
+        .input-icon i.fa-eye,
+        .input-icon i.fa-eye-slash {
+            left: auto;
+            right: 10px;
+            cursor: pointer;
+        }
+        .input-icon i.fa-eye:hover,
+        .input-icon i.fa-eye-slash:hover {
+            color: #6c5ce7;
         }
         .alert-danger {
             background-color: #ffebee;
@@ -104,6 +104,7 @@
     </style>
 </head>
 <body>
+    <!-- Container Login -->
     <div class="login-container">
         <h1>Login</h1>
         @if ($errors->any())
@@ -124,10 +125,26 @@
             <div class="input-icon">
                 <i class="fas fa-lock"></i>
                 <input type="password" name="password" id="password" class="form-control" placeholder="Masukan Password">
+                <i class="fas fa-eye password-toggle" id="togglePassword"></i>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
-
     </div>
+
+    <script>
+        // JavaScript untuk toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            // Toggle type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 </body>
 </html>

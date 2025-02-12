@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Blangko;
 use App\Models\Dokumen;
+use App\Models\JenisBlangko;
+use App\Models\Mapel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,8 +59,9 @@ class GuruController extends Controller
     
     public function showUploadForm()
     {
-        $dokumens = Dokumen::where('guru_id', Auth::id())->get();
-        return view('guru.upload-dokumen', compact('dokumens'));
+        $jenisOptions = JenisBlangko::all(); // Ambil dari database
+        $dokumens = Dokumen::where('guru_id', Auth::id())->get();       
+        return view('guru.upload-dokumen', compact('jenisOptions','dokumens'));
     }
 
     // Menyimpan dokumen yang diupload oleh guru

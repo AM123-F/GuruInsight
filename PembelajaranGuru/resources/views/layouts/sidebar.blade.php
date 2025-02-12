@@ -112,6 +112,7 @@
                         <i class="fa fa-book"></i> <span>Laporan</span>
                     </a>
                 </li>
+                <li class="header"></li>
             @endif
 
             <!-- Logout -->

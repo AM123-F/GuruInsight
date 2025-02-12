@@ -77,7 +77,7 @@ Route::middleware(['auth', 'role:wakasek'])->prefix('wakasek')->name('wakasek.')
 Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
     Route::get('/blangko', [GuruController::class, 'blangko'])->name('guru.blangko');
     Route::get('guru/guru/upload-tugas', [GuruController::class, 'showUploadForm'])->name('guru.guru.upload.tugas.form');
-    Route::post('guru/guru/upload-tugas', [GuruController::class, 'storeTugas'])->name('guru.guru.upload.store');
+    Route::post('guru/guru/upload-tugas-store', [GuruController::class, 'storeTugas'])->name('guru.guru.upload.store');
     Route::delete('/guru/guru/upload/{id}', [GuruController::class, 'destroy'])->name('guru.guru.upload.destroy');
 
     
