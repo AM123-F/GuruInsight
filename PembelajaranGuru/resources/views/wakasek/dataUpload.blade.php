@@ -34,7 +34,7 @@
 
                         <!-- Tombol Lihat Pengumpulan -->
                         <div class="mt-2">
-                            <a href="{{ route('wakasek.mapel.show', $mapel->id) }}" 
+                            <a href="{{ route('wakasek.wakasek.mapel.show', $mapel->id) }}" 
                                class="btn btn-outline-primary btn-sm shadow-sm"
                                style="border-radius: 6px; padding: 5px 10px; font-size: 12px;">
                                 📂 Lihat
